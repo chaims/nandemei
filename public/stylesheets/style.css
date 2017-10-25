@@ -6,3 +6,108 @@ body {
 a {
   color: #00B7FF;
 }
+
+$fireSize: 150;
+$burnSize: 12;
+$burnCount: 40;
+
+body {
+  background: #000;
+  height: 100vh;
+  overflow: hidden;
+}
+#ui {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: #{-$fireSize / 4}px;
+  transform: translate(-50%, -50%);
+  transition: 100ms;
+  
+  .stick {
+    position: absolute;
+    z-index: 999;
+    top: #{$fireSize + 10}px;
+    left: #{$fireSize / 2 - 12}px;
+    width: 150px;
+    height: 8px;
+    background: #FFCC7A;
+    border-right: 3px solid #A3824E;
+    border-bottom: 3px solid #A3824E;
+    box-sizing: border-box;
+    border-radius: 99px;
+    transform-origin: 0 50%;
+    transform: rotateZ(20deg);
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 28px;
+      height: 18px;
+      background: #E80000;
+      border-bottom: 4px solid #940000;
+      border-radius: 100%;
+      transform: translateY(-50%);
+      box-sizing: border-box;
+      box-shadow: 0 0 30px 8px rgba(255, 0, 0, 0.4);
+    }
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100px;
+      height: 80px;
+      background: rgba(200, 0, 40, 0.4);
+      border-radius: 100%;
+      transform: translate(-50%, -50%);
+      mix-blend-mode: color-dodge;
+      filter: blur(30px);
+    }
+  }
+  .fire {
+    position: relative;
+    width: #{$fireSize}px;
+    height: #{$fireSize}px;
+    background: #ff9900;
+    filter: blur(6px) contrast(30);
+    border: #{$fireSize/2}px solid #000;
+    border-bottom-color: transparent;
+    border-radius: 40%;
+    box-sizing: border-box;
+    transform: scale(0.25, 1);
+    opacity: 0.8;
+    
+    .burn {
+      position: absolute;
+      top: #{$fireSize}px;
+      left: #{-$burnSize / 2}px;
+      width: #{$burnSize}px;
+      height: #{$burnSize}px;
+      background: #000;
+      border-radius: 100%;
+      
+      @for $i from 1 through $burnCount * 2 {
+        &.heat:nth-child(#{$i}) {
+          height: #{random(10)}px;
+        }
+        &:nth-child(#{$i}) {
+          height: #{random($burnSize / 2)}px;
+          margin-left: #{random($fireSize) - $fireSize / 2}px;
+          animation: burning #{random(1000) + 600}ms infinite linear;
+        }
+      }
+    }
+  }
+}
+
+@keyframes burning {
+  0% {
+    transform: translate(-#{$fireSize / 2}px, 0);
+  }
+  100% {
+    transform: translate(#{$fireSize / 2}px, -#{$fireSize+$burnSize}px);
+  }
+}

@@ -3,10 +3,12 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 #bible{
+  position:absolute;
+  top:45%;
   color: #fff;
-    text-align: center;
-    font-size: 20px;
-    text-shadow: 2px -1px 2px;
+  text-align: center;
+  font-size: 20px;
+  text-shadow: 2px -1px 2px;
 }
 a {
   color: #00B7FF;

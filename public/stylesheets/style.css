@@ -4,7 +4,8 @@ body {
 }
 #bible{
   position:absolute;
-  top:45%;
+  top:35%;
+  width:100%;
   color: #fff;
   text-align: center;
   font-size: 20px;

@@ -12,28 +12,26 @@
 			}
 			#info {
 				position: absolute;
-				top: 0px; width: 100%;
+				top: 45%;
+        width: 100%;
 				color: #ffffff;
 				padding: 5px;
 				font-family:Monospace;
-				font-size:13px;
+				font-size:24px;
 				font-weight: bold;
 				text-align:center;
-			}
-			a {
-				color: #ffffff;
 			}
 		</style>
 	</head>
 	<body>
 
 		<div id="container"></div>
-		<div id="info"><a href="http://threejs.org" target="_blank" rel="noopener">three.js</a> - panorama demo. cubemap by <a href="http://www.zfight.com/" target="_blank" rel="noopener">Jochum Skoglund</a>.</div>
+		<div id="info">愛是恆久忍耐，又有恩慈；愛是不嫉妒；<br />愛是不自誇，不張狂，不做害羞的事，不求自己的益處，不輕易發怒，不計算人的惡，不喜歡不義，只喜歡真理；<br />凡事包容，凡事相信，凡事盼望，凡事忍耐。愛是永不止息。 </div>
 
-		<script src="../build/three.js"></script>
+		<script src="https://threejs.org/build/three.js"></script>
 
-		<script src="js/renderers/Projector.js"></script>
-		<script src="js/renderers/CanvasRenderer.js"></script>
+		<script src="https://threejs.org/examples/js/renderers/Projector.js"></script>
+		<script src="https://threejs.org/examples/js/renderers/CanvasRenderer.js"></script>
 
 		<script>
 			var camera, scene, renderer;
@@ -58,12 +56,12 @@
 				context.fillStyle = 'rgb( 200, 200, 200 )';
 				context.fillRect( 0, 0, texture_placeholder.width, texture_placeholder.height );
 				var materials = [
-					loadTexture( 'textures/cube/skybox/px.jpg' ), // right
-					loadTexture( 'textures/cube/skybox/nx.jpg' ), // left
-					loadTexture( 'textures/cube/skybox/py.jpg' ), // top
-					loadTexture( 'textures/cube/skybox/ny.jpg' ), // bottom
-					loadTexture( 'textures/cube/skybox/pz.jpg' ), // back
-					loadTexture( 'textures/cube/skybox/nz.jpg' )  // front
+					loadTexture( 'https://threejs.org/examples/textures/cube/skybox/px.jpg' ), // right
+					loadTexture( 'https://threejs.org/examples/textures/cube/skybox/nx.jpg' ), // left
+					loadTexture( 'https://threejs.org/examples/textures/cube/skybox/py.jpg' ), // top
+					loadTexture( 'https://threejs.org/examples/textures/cube/skybox/ny.jpg' ), // bottom
+					loadTexture( 'https://threejs.org/examples/textures/cube/skybox/pz.jpg' ), // back
+					loadTexture( 'https://threejs.org/examples/textures/cube/skybox/nz.jpg' )  // front
 				];
 				mesh = new THREE.Mesh( new THREE.BoxGeometry( 300, 300, 300, 7, 7, 7 ), materials );
 				mesh.scale.x = - 1;

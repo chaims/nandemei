@@ -5,7 +5,7 @@
 *@desc crawl 'http://books.toscrape.com/' use puppeteer for exercise 
 *@date 2017/12/29
 */
-const fs = require('fs');
+//const fs = require('fs');
 let movieSchema = require('../../models/movie');
 const puppeteer = require('puppeteer');
 (async() => {

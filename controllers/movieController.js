@@ -22,7 +22,15 @@ exports.movie_crawl_list = (req, res, next) => {
     res.json(filesList);
 };
 exports.movie_crawl_start = (req, res, next) => {
-    res.send('crawl start');
+    const str = 'node ./craw/'+req.params.name;
+    exec(str, function(err, stdout, stderr) {
+        if (err){
+            throw err;
+        }
+        console.log('11111111');
+        console.log(stdout);
+    });
+    res.json({result:'ok',msg:'start'});
 };
 exports.movie_crawl_stop = (req, res, next) => {
     res.send('crawl start');

@@ -8,14 +8,6 @@ router.get('/index', (req, res, next) => {
     res.redirect('/crawl/index.html');
  });
 router.get('/list', movieContrl.movie_crawl_list);
-// 爬取
-// router.get('/start', (req,res,next) => {
-//     exec('node ./controllers/craw/genmovie', function(err, stdout, stderr) {
-//         if (err) {
-//             next(new Error(err));
-//         }
-//         console.log(stdout);
-//     });
-//     res.json({ result:'ok' });
-// });
+router.get('/start', movieContrl.movie_crawl_start);
+
 module.exports = router;

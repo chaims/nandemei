@@ -10,7 +10,7 @@ let movieSchema = require('../../models/movie');
 const puppeteer = require('puppeteer');
 (async() => {
     try{
-        const browser = await puppeteer.launch({headless:false});
+        const browser = await puppeteer.launch();
         let page = await browser.newPage();
         try{
             await page.goto('http://www.hgdy123.com/genres/7/情色.html');  

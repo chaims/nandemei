@@ -1,34 +1,42 @@
 const fs = require("fs");
 const path = require("path");
-const { exec } = require('child_process');
+const cp = require('child_process');
 //const Movie = require('../models/movie');
 /*
 *crawl
 */
 exports.movie_crawl_list = (req, res, next) => {
     const root = path.join(__dirname, 'crawl');
-    const files = fs.readdirSync(root); 
     let filesList = []; 
-    files.forEach(function(file,index){  
-        var info = fs.statSync(root + "/" + file);      
-        if(info.isDirectory()){  
-            readDirSync(root + "/" + file);  
-        }else{  
-            filesList.push({
-                name:file.replace(/\.js/i,'')
-            });
-        }     
-    });  
+    const readDirSync = (filepath) => {
+        const files = fs.readdirSync(filepath);      
+        files.forEach(function(file,index){  
+            var info = fs.statSync(root + "/" + file);      
+            if(info.isDirectory()){
+                if(file !== 'lib'){
+                    readDirSync(root + "/" + file);  
+                }  
+            }else{  
+                filesList.push({
+                    name:file.replace(/\.js/i,'')
+                });
+            }     
+        });     
+    }
+    readDirSync(root); 
     res.json(filesList);
 };
 exports.movie_crawl_start = (req, res, next) => {
-    const str = 'node controllers/crawl/'+req.params.path;
-    exec(str, function(err, stdout, stderr) {
-        if (err){
-            throw err;
-        }
-        console.log('11111111');
-        console.log(stdout);
+    const str = 'controllers/crawl/'+req.params.path;
+    let nodeShell = cp.spawn('node', [str], {});
+    nodeShell.stdout.on('data', function (data) {
+        console.log('stdout: ' + data);
+    });
+    nodeShell.stderr.on('data', function (data) {
+        console.log('stderr: ' + data);
+    });
+    nodeShell.on('exit', function (code) {
+        console.log('child crawl process exited with code ' + code);
     });
     res.json({result:'ok',msg:'start'});
 };

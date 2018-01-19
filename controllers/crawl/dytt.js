@@ -5,7 +5,7 @@
 *@desc crawl http://www.dy2018.com/ use puppeteer for exercise 
 *@date 2018/1/17
 */
-let {thunderEncode} = require('./thunderencode');
+let {thunderEncode} = require('./lib/thunderencode');
 let videoSchema = require('../../models/video');
 const puppeteer = require('puppeteer');
 const baseUrl = 'http://www.dy2018.com';

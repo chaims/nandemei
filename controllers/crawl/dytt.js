@@ -11,8 +11,8 @@ const puppeteer = require('puppeteer');
 const baseUrl = 'http://www.dy2018.com';
 (async() => {
     try{
-        browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
-        //const browser = await puppeteer.launch({headless:false});
+        //browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
+        browser = await puppeteer.launch({headless:false});
         let page = await browser.newPage();
         await page.setRequestInterception(true);
         page.on('request', request => {
@@ -48,7 +48,6 @@ const baseUrl = 'http://www.dy2018.com';
                     return [];
                 }
             }
-            
         }
         //获取影片信息
         const getVideoInfos = async (url,timer) => {
@@ -167,6 +166,7 @@ const baseUrl = 'http://www.dy2018.com';
                     console.log('error getListVideoInfos get '+linkArr[i]['title']+' video info');
                     console.log(e);
                 }
+                console.log(infos.title);
                 infos.tag = linkArr[i]['tag'];
                 infos.title = linkArr[i]['title'];
                 if(infos){
@@ -280,7 +280,9 @@ const baseUrl = 'http://www.dy2018.com';
             const totalPageArr = await getPerPageUrl(menuLinksArr[i]['href'],0);
             if(totalPageArr){
                 for(let j = 0;j<totalPageArr.length;j++){
-                    await preGetVideoList(baseUrl+totalPageArr[j],0);  
+                    await preGetVideoList(baseUrl+totalPageArr[j],0);
+                    console.log('==================');
+                    console.log(typeInfo + ':' + (baseUrl + totalPageArr[j]))
                 }
             }
         }

@@ -44,7 +44,7 @@ const baseUrl = 'http://www.dy2018.com';
             }catch(e){
                 if(timer<5){
                     timer++;
-                    await getIndexCrawlList(timer);
+                    return await getIndexCrawlList(timer);
                 }else{
                     console.log('error on getIndexCrawlList');
                     console.log(e);
@@ -152,7 +152,7 @@ const baseUrl = 'http://www.dy2018.com';
             }catch(e){
                 if(timer<5){
                     timer++;
-                    await getVideoInfos(url, timer);
+                    return await getVideoInfos(url, timer);
                 }else{
                     console.log(e);
                     return {};
@@ -216,7 +216,7 @@ const baseUrl = 'http://www.dy2018.com';
                 if(timer < 5){
                     timer++;
                     await videoListPage.reload();
-                    await getPerPageVideoList(timer);
+                    return await getPerPageVideoList(timer);
                 }else{
                     console.log('error on getPerPageVideoList');
                     console.log(e);
@@ -257,7 +257,7 @@ const baseUrl = 'http://www.dy2018.com';
             }catch(e){
                 if(timer < 5){
                     timer++;
-                    await getPerPageUrl(url,timer);
+                    return await getPerPageUrl(url,timer);
                 }else{
                     console.log('error on getPerPageUrl');
                     console.log(e);
@@ -270,10 +270,12 @@ const baseUrl = 'http://www.dy2018.com';
         let typeDesc = '';
         requestInterception(page);
         let menuLinksArr = await getIndexCrawlList(0);
+        
         let videoListPage = await browser.newPage();
         requestInterception(videoListPage);
         let videoInfo = await browser.newPage();
         requestInterception(videoInfo);
+        
         for(let i = 0;i<menuLinksArr.length;i++){
             //入口类型
             const typeInfo = menuLinksArr[i]['desc'];

@@ -43,7 +43,6 @@ const baseUrl = 'http://www.dy2018.com';
                     timer++;
                     await getIndexCrawlList(timer);
                 }else{
-                    await page.close();
                     console.log('error on getIndexCrawlList');
                     console.log(e);
                     return [];
@@ -53,9 +52,7 @@ const baseUrl = 'http://www.dy2018.com';
         }
         //获取影片信息
         const getVideoInfos = async (url,timer) => {
-            let videoInfo = "";
             try{
-                videoInfo = await browser.newPage();
                 await videoInfo.goto(url);
                 const downloadUrls = '#Zoom table tr td a'; 
                 await videoInfo.waitForSelector(downloadUrls);
@@ -149,19 +146,14 @@ const baseUrl = 'http://www.dy2018.com';
                     })
                 }
                 detail.type = typeDesc; //电影、电视、综艺、动漫
-                await videoInfo.close();
                 return detail;
             }catch(e){
-                if(videoInfo){
-                    await videoInfo.close();
-                }
                 if(timer<5){
                     timer++;
                     await getVideoInfos(url, timer);
                 }else{
-                    await videoInfo.close();
                     console.log(e);
-                    return null;
+                    return {};
                 }
             }
         };  
@@ -172,7 +164,6 @@ const baseUrl = 'http://www.dy2018.com';
                 try{
                     infos = await getVideoInfos(linkArr[i]['link'],0);
                 }catch(e){
-                    infos = {};
                     console.log('error getListVideoInfos get '+linkArr[i]['title']+' video info');
                     console.log(e);
                 }
@@ -233,7 +224,7 @@ const baseUrl = 'http://www.dy2018.com';
             try{
                 await videoListPage.goto(url);
                 const perList = await getPerPageVideoList(0);
-                await getListVideoInfos(perList).catch((e) => { console.log('coming 1'); });
+                await getListVideoInfos(perList);
             }catch(e){
                 if(timer < 5){
                     timer++;
@@ -273,6 +264,7 @@ const baseUrl = 'http://www.dy2018.com';
         let typeDesc = '';
         let menuLinksArr = await getIndexCrawlList(0);
         let videoListPage = await browser.newPage();
+        let videoInfo = await browser.newPage();
         for(let i = 0;i<menuLinksArr.length;i++){
             //入口类型
             const typeInfo = menuLinksArr[i]['desc'];
@@ -292,6 +284,7 @@ const baseUrl = 'http://www.dy2018.com';
                 }
             }
         }
+        await videoInfo.close();
         await videoListPage.close();
         await browser.close();
     }catch(e){

@@ -178,7 +178,6 @@ const baseUrl = 'http://www.dy2018.com';
                 }
                 infos.tag = linkArr[i]['tag'];
                 infos.title = linkArr[i]['title'];
-                console.log(infos);
                 if(infos){
                     videoSchema.find({originName:infos.originName,director:infos.director}).exec(function(err,result){
                         if(err){
@@ -236,7 +235,7 @@ const baseUrl = 'http://www.dy2018.com';
                 const perList = await getPerPageVideoList(0);
                 await getListVideoInfos(perList).catch((e) => { console.log('coming 1'); });
             }catch(e){
-                if(timer < 10){
+                if(timer < 5){
                     timer++;
                     await preGetVideoList(url, timer);
                 }else{
@@ -259,7 +258,7 @@ const baseUrl = 'http://www.dy2018.com';
                 },  pageList);
                 return totalPages;
             }catch(e){
-                if(timer < 10){
+                if(timer < 5){
                     timer++;
                     await getPerPageUrl(url,timer);
                 }else{

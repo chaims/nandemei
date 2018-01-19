@@ -14,13 +14,16 @@ const baseUrl = 'http://www.dy2018.com';
         //browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
         browser = await puppeteer.launch({headless:false});
         let page = await browser.newPage();
-        await page.setRequestInterception(true);
-        page.on('request', request => {
-            if (request.resourceType === 'image' || request.resourceType === 'script')
-                request.abort();
-            else
-                request.continue();
-        });
+        //过滤request
+        const requestInterception = async(pageName) => {
+            await pageName.setRequestInterception(true);
+            pageName.on('request', request => {
+                if (request.resourceType === 'image' || request.resourceType === 'script')
+                    request.abort();
+                else
+                    request.continue();
+            });
+        } 
         //通过首页获取待爬取入口
         const getIndexCrawlList = async(timer) => {
             try{
@@ -166,9 +169,9 @@ const baseUrl = 'http://www.dy2018.com';
                     console.log('error getListVideoInfos get '+linkArr[i]['title']+' video info');
                     console.log(e);
                 }
-                console.log(infos.title);
                 infos.tag = linkArr[i]['tag'];
                 infos.title = linkArr[i]['title'];
+                console.log(infos.title);
                 if(infos){
                     videoSchema.find({originName:infos.originName,director:infos.director}).exec(function(err,result){
                         if(err){
@@ -179,7 +182,9 @@ const baseUrl = 'http://www.dy2018.com';
                         }else{
                             const video = new videoSchema(infos);
                             video.save(function(err){
-                                console.log(err);
+                                if(err){
+                                    console.log(err);
+                                }
                             });
                         }
                     });
@@ -224,6 +229,7 @@ const baseUrl = 'http://www.dy2018.com';
             try{
                 await videoListPage.goto(url);
                 const perList = await getPerPageVideoList(0);
+                console.log('========'+ '(' +perList.length + '条)' +'========');
                 await getListVideoInfos(perList);
             }catch(e){
                 if(timer < 5){
@@ -262,9 +268,12 @@ const baseUrl = 'http://www.dy2018.com';
         }
 
         let typeDesc = '';
+        requestInterception(page);
         let menuLinksArr = await getIndexCrawlList(0);
         let videoListPage = await browser.newPage();
+        requestInterception(videoListPage);
         let videoInfo = await browser.newPage();
+        requestInterception(videoInfo);
         for(let i = 0;i<menuLinksArr.length;i++){
             //入口类型
             const typeInfo = menuLinksArr[i]['desc'];
@@ -280,9 +289,8 @@ const baseUrl = 'http://www.dy2018.com';
             const totalPageArr = await getPerPageUrl(menuLinksArr[i]['href'],0);
             if(totalPageArr){
                 for(let j = 0;j<totalPageArr.length;j++){
+                    console.log('=================='+ typeInfo + ':' + (baseUrl + totalPageArr[j]) + '==================');
                     await preGetVideoList(baseUrl+totalPageArr[j],0);
-                    console.log('==================');
-                    console.log(typeInfo + ':' + (baseUrl + totalPageArr[j]))
                 }
             }
         }

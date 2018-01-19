@@ -11,8 +11,8 @@ const puppeteer = require('puppeteer');
 const baseUrl = 'http://www.dy2018.com';
 (async() => {
     try{
-        //browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
-        browser = await puppeteer.launch({headless:false});
+        browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
+        //browser = await puppeteer.launch({headless:false});
         let page = await browser.newPage();
         //过滤request
         const requestInterception = async(pageName) => {

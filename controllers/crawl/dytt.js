@@ -11,7 +11,7 @@ const puppeteer = require('puppeteer');
 const baseUrl = 'http://www.dy2018.com';
 (async() => {
     try{
-        const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
+        browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
         //const browser = await puppeteer.launch({headless:false});
         let page = await browser.newPage();
         await page.setRequestInterception(true);
@@ -269,7 +269,7 @@ const baseUrl = 'http://www.dy2018.com';
             //入口类型
             const typeInfo = menuLinksArr[i]['desc'];
             if(['华语连续剧','美剧','日韩剧'].indexOf(typeInfo) > -1){
-                typeDesc = "电视剧";
+                typeDesc = "电视剧";f
             } else if (typeInfo.indexOf('综艺') > -1) {
                 typeDesc = "综艺";
             } else if (typeInfo.indexOf('动漫') > -1) {
@@ -280,15 +280,18 @@ const baseUrl = 'http://www.dy2018.com';
             const totalPageArr = await getPerPageUrl(menuLinksArr[i]['href'],0);
             if(totalPageArr){
                 for(let j = 0;j<totalPageArr.length;j++){
-                    await preGetVideoList(baseUrl+totalPageArr[j],0).catch((e) => { console.log(totalPageArr[j]); });  
+                    await preGetVideoList(baseUrl+totalPageArr[j],0);  
                 }
             }
         }
-        await videoInfo.close();
-        await videoListPage.close();
         await browser.close();
     }catch(e){
-        console.log('return 了');
+        console.log('报错退出了!');
         console.log(e);
+    }finally{
+        if(browser){
+            console.log('结束了！')
+            await browser.close();
+        }
     }
 })();

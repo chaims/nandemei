@@ -4,7 +4,7 @@ var videoSchema = new mongoose.Schema({
     "type": {type : String},        //电影、电视、综艺、动漫
     "title": {type : String},       //标题
     "localname": {type : String},   //译名
-    "originName": {type : String},  //片名
+    "originName": {type : String, index: true},  //片名
     "year": {type : String},        //年代
     "area": {type : String},        //产地
     "category": {type : String},    //分类类别：动作。。。
@@ -21,7 +21,7 @@ var videoSchema = new mongoose.Schema({
     "filesize": {type : String},    //文件大小
     "episodes": {type : String},    //集数
     "videotime": {type : String},   //片长
-    "director": {type : String},    //导演
+    "director": {type : String, index: true},    //导演
     "star": {type : String},        //主演
     "desc": {type : String},        //简介
     "previewImg": {type : String},  //预览图

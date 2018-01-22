@@ -58,7 +58,7 @@ const baseUrl = 'http://www.dy2018.com';
                 await videoInfo.goto(url);
                 const downloadUrls = '#Zoom table tr td a'; 
                 await videoInfo.waitForSelector(downloadUrls);
-                videoInfo.waitFor(500);
+                videoInfo.waitFor(2000);
                 const detail = await videoInfo.evaluate(() => {
                     //数据对应解析
                     const schemaMapping = (dataArry) => {
@@ -237,8 +237,15 @@ const baseUrl = 'http://www.dy2018.com';
                     timer++;
                     await preGetVideoList(url, timer);
                 }else{
-                    console.log('error on preGetVideoList');
-                    console.log(e);
+                    //设置代理
+                    //TODO
+                    if(timer < 10){
+                        timer++;
+                        await preGetVideoList(url, timer);
+                    } else {
+                        console.log('error on preGetVideoList');
+                        console.log(e);
+                    }
                 }
             }
         } 
@@ -302,8 +309,8 @@ const baseUrl = 'http://www.dy2018.com';
         console.log('报错退出了!');
         console.log(e);
     }finally{
+        console.log('结束了！')
         if(browser){
-            console.log('结束了！')
             await browser.close();
         }
     }

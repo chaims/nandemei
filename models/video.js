@@ -5,7 +5,7 @@ var videoSchema = new mongoose.Schema({
     "title": {type : String},       //标题
     "localname": {type : String},   //译名
     "originName": {type : String},  //片名
-    "year": {type : Number},        //年代
+    "year": {type : String},        //年代
     "area": {type : String},        //产地
     "category": {type : String},    //分类类别：动作。。。
     "tag": {type : String},         //标签：最新、经典。。。

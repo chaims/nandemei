@@ -58,6 +58,7 @@ const baseUrl = 'http://www.dy2018.com';
                 await videoInfo.goto(url);
                 const downloadUrls = '#Zoom table tr td a'; 
                 await videoInfo.waitForSelector(downloadUrls);
+                videoInfo.waitFor(500);
                 const detail = await videoInfo.evaluate(() => {
                     //数据对应解析
                     const schemaMapping = (dataArry) => {

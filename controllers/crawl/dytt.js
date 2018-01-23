@@ -7,6 +7,7 @@
 */
 let {thunderEncode} = require('./lib/thunderencode');
 let videoSchema = require('../../models/video');
+let todoVideo = require('../../models/tmpVideo');
 const puppeteer = require('puppeteer');
 const baseUrl = 'http://www.dy2018.com';
 (async() => {
@@ -228,7 +229,7 @@ const baseUrl = 'http://www.dy2018.com';
         };
         //保存每页影片信息入口
         const savePerPageVideoList = (videos) => {
-            videoSchema.collection.insert(videos,function(err){
+            todoVideo.collection.insert(videos,function(err){
                 if(err){
                     console.log(err);
                 }

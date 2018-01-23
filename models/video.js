@@ -27,6 +27,7 @@ var videoSchema = new mongoose.Schema({
     "previewImg": {type : String},  //预览图
     "tmpUrls": {type : Array},      //预下载地址
     "downloadUrls": {type : Array}, //下载地址
-    "watchUrls": {type : Array}  //观看地址
+    "watchUrls": {type : Array},    //观看地址
+    "link": {type: String}          //详情页
 });
 module.exports = db.model('video', videoSchema );

@@ -13,9 +13,9 @@ exports.movie_crawl_list = (req, res, next) => {
         files.forEach(function(file,index){  
             var info = fs.statSync(root + "/" + file);      
             if(info.isDirectory()){
-                if(file !== 'lib'){
-                    readDirSync(root + "/" + file);  
-                }  
+                // if(file !== 'lib'){
+                //     readDirSync(root + "/" + file);  
+                // }  
             }else{  
                 filesList.push({
                     name:file.replace(/\.js/i,'')

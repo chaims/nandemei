@@ -177,16 +177,17 @@ const baseUrl = 'http://www.dy2018.com';
                     videoSchema.find({originName:infos.originName,director:infos.director}).exec(function(err,result){
                         if(err){
                             console.log(err);
-                        }
-                        if(result && result.length>0){
-                            // TODO result [Array] update       
                         }else{
-                            const video = new videoSchema(infos);
-                            video.save(function(err){
-                                if(err){
-                                    console.log(err);
-                                }
-                            });
+                            if(result && result.length>0){
+                                // TODO result [Array] update       
+                            }else{
+                                const video = new videoSchema(infos);
+                                video.save(function(err){
+                                    if(err){
+                                        console.log(err);
+                                    }
+                                });
+                            }
                         }
                     });
                 }
@@ -225,13 +226,22 @@ const baseUrl = 'http://www.dy2018.com';
                 }
             }
         };
+        //保存每页影片信息入口
+        const savePerPageVideoList = (videos) => {
+            videoSchema.collection.insert(videos,function(err){
+                if(err){
+                    console.log(err);
+                }
+            });
+        }
         //遍历每个顶级入口下的列表页面
         const preGetVideoList = async(url,timer) => {
             try{
                 await videoListPage.goto(url);
                 const perList = await getPerPageVideoList(0);
                 console.log('========'+ '(' +perList.length + '条)' +'========');
-                await getListVideoInfos(perList);
+                //await getListVideoInfos(perList);
+                savePerPageVideoList(perList);
             }catch(e){
                 if(timer < 5){
                     timer++;
@@ -288,7 +298,7 @@ const baseUrl = 'http://www.dy2018.com';
             //入口类型
             const typeInfo = menuLinksArr[i]['desc'];
             if(['华语连续剧','美剧','日韩剧'].indexOf(typeInfo) > -1){
-                typeDesc = "电视剧";f
+                typeDesc = "电视剧";
             } else if (typeInfo.indexOf('综艺') > -1) {
                 typeDesc = "综艺";
             } else if (typeInfo.indexOf('动漫') > -1) {

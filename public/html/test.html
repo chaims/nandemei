@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <img src="/img/test.png" /> -->
+    <img src="/img/girl.jpg" />
+    <img src="/img/test.png" />
+    <img src="/img/image.png" />
+    
+    <canvas id="canvas" width="1118" height="760"></canvas>
+    <button id="invertbtn">转换1</button>
+    <button id="grayscalebtn">grayscalebtn</button>
+    <script>
+      
+        var img = new Image();
+        img.src = '/img/test.png';
+        img.onload = function() {
+            console.log(img.width);
+            draw(this);
+        };
+
+        function draw(img) {
+            var canvas = document.getElementById('canvas');
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            img.style.display = 'none';
+            var imageData = ctx.getImageData(0,0,canvas.width, canvas.height);
+            var data = imageData.data;
+                
+            var invert = function() {
+                console.log(data.length);
+                for (var i = 0; i < data.length; i += 4) {
+                    if (data[i] < 125) {
+                        data[i]     = 0;        // red
+                        data[i + 1] = 128;      // green
+                        data[i + 2] = 0;        // blue
+                        data[i + 3] = 0.5*255;  // opacity
+                    } else {
+                        data[i + 3] = 0*255;  // opacity
+                    }
+                    // console.log('rgba:(' + data[i] + ',' + data[i+1] + ',' + data[i+2] + ',' + data[i+3]/255 + ')');
+                    // data[i]     = 225 - data[i];     // red
+                    // data[i + 1] = 225 - data[i + 1]; // green
+                    // data[i + 2] = 225 - data[i + 2]; // blue
+                    // data[i + 3] = 0.5*255;           // opacity
+                }
+                ctx.putImageData(imageData, 0, 0);
+            };
+
+            var grayscale = function() {
+                for (var i = 0; i < data.length; i += 4) {
+                    var avg = (data[i] + data[i +1] + data[i +2]) / 3;
+                    data[i]     = avg; // red
+                    data[i + 1] = avg; // green
+                    data[i + 2] = avg; // blue
+                }
+                ctx.putImageData(imageData, 0, 0);
+            };
+
+            var invertbtn = document.getElementById('invertbtn');
+            invertbtn.addEventListener('click', invert);
+            var grayscalebtn = document.getElementById('grayscalebtn');
+            grayscalebtn.addEventListener('click', grayscale);
+        }
+    </script>
+</body>
+</html>

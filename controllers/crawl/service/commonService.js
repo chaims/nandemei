@@ -1,6 +1,8 @@
 class CommonService {
-    constructor(url) {
-        this.entryUrl = url;
+    constructor(fp,sp,tp) {
+        this.entryPage = fp;
+        this.listPage = sp;
+        this.pageInfo = tp;
     }
     async getCrawlEntry() {
         
